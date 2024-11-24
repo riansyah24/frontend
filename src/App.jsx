@@ -9,18 +9,24 @@ import Card from "./components/Card.jsx"
 
 export default function App() {
   let [data, setData] = useState([])
+  let [quantity, setQuantity] = useState(1)
+  let [dataContent, setDataContent] = useState([])
   useEffect(() => {
-    axios.get(`https://fakestoreapi.com/products/1`).then(res => setData(res.data))
+    axios.get(`https://fakestoreapi.com/products/1`)
+    .then(res => setData(res.data))
   },[])
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
   return(
     <div>
       <Navbar/>
-      <div className="flex flex-col lg:flex-row lg:items-center">
+      <div className="p-2 flex flex-col lg:flex-row lg:items-center">
         <ImageContent image={data.image}/>
-        <Title title={data.title} price={data.price}/>
+        <Title title={data.title} price={numberWithCommas(data.price*16000)} quantity={quantity}/>
       </div>
       <Description desc={data.description}/>
-      <RelatedContent card={"anjay"}/>
+      <RelatedContent card={<Card/>}/>
     </div>
     )
 }

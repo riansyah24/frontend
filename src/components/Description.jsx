@@ -1,8 +1,8 @@
 export default function Description(props) {
   return(
-    <div>
-      <h1>Description</h1>
-      <p>{props.desc}</p>
+    <div className="p-2">
+      <h1 className="text-2xl font-bold">Description</h1>
+      <p className="mt-2">{props.desc}</p>
     </div>
     )
 }
