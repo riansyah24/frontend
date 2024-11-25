@@ -13,20 +13,23 @@ export default function Item() {
   let [dataContent, setDataContent] = useState([])
   useEffect(() => {
     axios.get(`https://fakestoreapi.com/products/1`)
-    .then(res => setData(res.data))
+    .then(res => {
+      setData(res.data)
+      console.log(res.data)
+      axios.get(`https://fakestoreapi.com/products/category/${res.data.category}`)
+      .then(res => setDataContent(res.data))
+    })
   },[])
-  function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
+  
   return(
     <div>
       <Navbar/>
       <div className="p-2 flex flex-col lg:flex-row lg:items-center">
         <ImageContent image={data.image}/>
-        <Title title={data.title} price={numberWithCommas(data.price*16000)} quantity={quantity}/>
+        <Title title={data.title} price={data.price} quantity={quantity}/>
       </div>
       <Description desc={data.description}/>
-      <RelatedContent card={<Card/>}/>
+      <RelatedContent card={dataContent.map(data => <Card title={data.title} price={data.price} image={data.image}/>)}/>
     </div>
     )
 }
