@@ -1,32 +1,16 @@
-import { useState, useEffect } from "react"
-import axios from "axios"
-import Navbar from "./components/Navbar.jsx"
-import Title from "./components/Title.jsx"
-import ImageContent from "./components/ImageContent.jsx"
-import Description from "./components/Description.jsx"
-import RelatedContent from "./components/RelatedContent.jsx"
-import Card from "./components/Card.jsx"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import Home from "./page/Home.jsx"
+import Item from "./page/Item.jsx"
+import Cart from "./page/Cart.jsx"
 
 export default function App() {
-  let [data, setData] = useState([])
-  let [quantity, setQuantity] = useState(1)
-  let [dataContent, setDataContent] = useState([])
-  useEffect(() => {
-    axios.get(`https://fakestoreapi.com/products/1`)
-    .then(res => setData(res.data))
-  },[])
-  function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
   return(
-    <div>
-      <Navbar/>
-      <div className="p-2 flex flex-col lg:flex-row lg:items-center">
-        <ImageContent image={data.image}/>
-        <Title title={data.title} price={numberWithCommas(data.price*16000)} quantity={quantity}/>
-      </div>
-      <Description desc={data.description}/>
-      <RelatedContent card={<Card/>}/>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element=<Home /> />
+        <Route path="/item" element=<Item /> />
+        <Route path="/cart" element=<Cart/> />
+      </Routes>
+    </BrowserRouter>
     )
 }
